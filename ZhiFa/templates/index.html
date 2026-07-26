@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>智法 AI - 专业法律智能助手</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Markdown 渲染库 marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- PDF 生成库（前端回退方案：直接生成 PDF 文件，不走浏览器打印，避免页脚URL/乱码） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- 侧边导航 -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <a href="#" class="logo">
+            <div class="logo-icon">法</div>
+            <div class="logo-text">
+              <span class="logo-title">智法 AI</span>
+              <span class="logo-subtitle">Legal Intelligence</span>
+            </div>
+          </a>
+        </div>
+
+        <nav class="nav-menu">
+          <div class="nav-section">
+            <div class="nav-section-title" data-i18n="nav.mainFeatures">
+              主要功能
+            </div>
+            <div class="nav-item active" data-panel="welcome">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9,22 9,12 15,12 15,22" />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.workspace">工作台</span>
+            </div>
+            <div class="nav-item" data-panel="qa">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.qa">法律咨询</span>
+            </div>
+            <div class="nav-item" data-panel="contract">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14,2 14,8 20,8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10,9 9,9 8,9" />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.contract">合同审查</span>
+            </div>
+            <div class="nav-item" data-panel="case">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22,4 12,14.01 9,11.01" />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.case">案情预测</span>
+            </div>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title" data-i18n="nav.knowledgeBase">
+              知识库
+            </div>
+            <div class="nav-item" data-panel="laws">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path
+                    d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.laws">法律法规</span>
+            </div>
+            <div class="nav-item" data-panel="cases">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.cases">案例库</span>
+            </div>
+          </div>
+
+          <div class="nav-section">
+            <div class="nav-section-title" data-i18n="nav.system">系统</div>
+            <div class="nav-item" data-panel="settings">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                  />
+                </svg>
+              </span>
+              <span class="nav-label" data-i18n="nav.settings">系统设置</span>
+            </div>
+          </div>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="theme-switch">
+            <svg class="theme-icon" viewBox="0 0 24 24" width="18" height="18">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <div class="theme-toggle">
+              <button
+                class="theme-btn active"
+                data-theme="dark"
+                onclick="setTheme('dark')"
+                data-i18n="sidebar.darkTheme"
+              >
+                深色
+              </button>
+              <button
+                class="theme-btn"
+                data-theme="light"
+                onclick="setTheme('light')"
+                data-i18n="sidebar.lightTheme"
+              >
+                浅色
+              </button>
+            </div>
+          </div>
+          <div class="user-info">
+            <div class="user-avatar">
+              <svg viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div class="user-details">
+              <div class="user-name" data-i18n="sidebar.proVersion">专业版</div>
+              <div class="user-role" data-i18n="sidebar.enterpriseUser">
+                企业用户
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 案例详情弹窗 -->
+        <div
+          id="case-modal-mask"
+          class="case-modal-mask"
+          onclick="hideCaseModal()"
+        >
+          <div class="case-modal" onclick="event.stopPropagation()">
+            <div class="case-modal-header">
+              <div class="case-modal-title" id="case-modal-title">案例详情</div>
+              <button class="case-modal-close" onclick="hideCaseModal()">
+                ×
+              </button>
+            </div>
+            <div class="case-modal-body" id="case-modal-body"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 主内容区 -->
+      <main class="main-content">
+        <header class="top-bar">
+          <h1 class="page-title">
+            <span class="page-title-icon" id="page-icon">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9,22 9,12 15,12 15,22" />
+              </svg>
+            </span>
+            <span id="page-title-text" data-i18n="nav.workspace">工作台</span>
+          </h1>
+        </header>
+
+        <div class="content-area">
+          <!-- 欢迎页面 -->
+          <div class="panel active" id="panel-welcome">
+            <div class="welcome-panel">
+              <div class="welcome-header">
+                <h1 class="welcome-title" data-i18n="welcome.title">
+                  智法 AI 法律助手
+                </h1>
+                <p class="welcome-subtitle">
+                  <span data-i18n="welcome.subtitle"
+                    >基于检索增强生成（RAG）技术，整合法律知识库与混元 Hy3 大模型</span
+                  ><br />
+                  <span data-i18n="welcome.subtitle2"
+                    >为您提供专业、准确、高效的法律智能服务</span
+                  >
+                </p>
+              </div>
+
+              <div class="feature-grid">
+                <div class="feature-card" onclick="switchPanel('qa')">
+                  <div class="feature-icon qa">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 class="feature-title" data-i18n="welcome.featureQaTitle">
+                    智能法律咨询
+                  </h3>
+                  <p class="feature-desc" data-i18n="welcome.featureQaDesc">
+                    基于海量法律法规与判例，智能回答各类法律问题，提供精准的法律建议与条文依据。
+                  </p>
+                </div>
+                <div class="feature-card" onclick="switchPanel('contract')">
+                  <div class="feature-icon contract">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14,2 14,8 20,8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                    </svg>
+                  </div>
+                  <h3
+                    class="feature-title"
+                    data-i18n="welcome.featureContractTitle"
+                  >
+                    合同智能审查
+                  </h3>
+                  <p
+                    class="feature-desc"
+                    data-i18n="welcome.featureContractDesc"
+                  >
+                    自动识别合同条款风险，对照法律法规检测违规内容，生成专业审查报告与修改建议。
+                  </p>
+                </div>
+                <div class="feature-card" onclick="switchPanel('case')">
+                  <div class="feature-icon case">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22,4 12,14.01 9,11.01" />
+                    </svg>
+                  </div>
+                  <h3
+                    class="feature-title"
+                    data-i18n="welcome.featureCaseTitle"
+                  >
+                    案情分析预测
+                  </h3>
+                  <p class="feature-desc" data-i18n="welcome.featureCaseDesc">
+                    分析刑事案件案情，检索相似判例，预测可能的罪名认定与量刑区间，辅助案件研判。
+                  </p>
+                </div>
+              </div>
+
+              <div class="knowledge-card" onclick="switchPanel('laws')">
+                <div class="knowledge-card-header">
+                  <div class="feature-icon knowledge">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                  </div>
+                  <h3 class="knowledge-card-name">法律知识库</h3>
+                  <p class="knowledge-card-desc">收录法律法规与裁判案例，支持全文检索与分类浏览</p>
+                </div>
+                <div class="knowledge-card-stats">
+                  <div class="knowledge-stat" onclick="event.stopPropagation(); switchPanel('laws')">
+                    <div class="knowledge-stat-value">2.1万+</div>
+                    <div class="stat-label">法律法规</div>
+                    <div class="stat-sublabel">8大法律体系</div>
+                  </div>
+                  <div class="knowledge-stat" onclick="event.stopPropagation(); switchPanel('cases')">
+                    <div class="knowledge-stat-value">15.0万+</div>
+                    <div class="stat-label">裁判案例</div>
+                    <div class="stat-sublabel">持续更新中</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 法律问答面板 - Gemini 风格 -->
+          <div class="panel" id="panel-qa">
+            <div class="qa-panel">
+              <div class="qa-container">
+                <!-- 新对话按钮 -->
+                <button
+                  class="new-chat-btn"
+                  onclick="startNewChat()"
+                  id="new-chat-btn"
+                  style="display: none"
+                >
+                  <svg viewBox="0 0 24 24">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                  <span data-i18n="qa.newChat">新对话</span>
+                </button>
+
+                <!-- Gemini 风格欢迎界面 -->
+                <div class="qa-welcome-screen" id="qa-welcome-screen">
+                  <h1 class="qa-welcome-title" data-i18n="qa.welcomeTitle">
+                    智法 AI 法律助手
+                  </h1>
+                  <p class="qa-welcome-subtitle">
+                    <span data-i18n="qa.welcomeSubtitle"
+                      >整合法律法规与网络案例检索，结合混元 Hy3 大模型深度理解能力</span
+                    ><br />
+                    <span data-i18n="qa.welcomeSubtitle2"
+                      >有什么法律问题，可以直接问我。</span
+                    >
+                  </p>
+                </div>
+
+                <!-- 消息区域 -->
+                <div class="qa-messages" id="qa-messages"></div>
+
+                <!-- 输入区域 -->
+                <div class="qa-input-wrapper-outer">
+                  <div class="qa-examples" id="qa-examples">
+                    <div class="qa-examples-label">示例：</div>
+                    <div class="qa-examples-list">
+                      <span
+                        class="quick-question"
+                        onclick="setQuestion('签了劳动合同后公司不给缴纳社保怎么办？')"
+                      >劳动社保问题</span>
+                      <span
+                        class="quick-question"
+                        onclick="setQuestion('房东提前解除租房合同需要赔偿吗？')"
+                      >租房合同纠纷</span>
+                      <span
+                        class="quick-question"
+                        onclick="setQuestion('离婚时财产如何分割？')"
+                      >离婚财产分割</span>
+                      <span
+                        class="quick-question"
+                        onclick="setQuestion('网购商品质量问题如何维权？')"
+                      >消费者维权</span>
+                    </div>
+                  </div>
+                  <div class="qa-input-area">
+                    <div class="qa-input-box">
+                      <div class="qa-input-wrapper">
+                        <textarea
+                          class="qa-textarea"
+                          id="qa-input"
+                          placeholder="询问任何法律问题..."
+                          data-i18n-placeholder="qa.inputPlaceholder"
+                          rows="1"
+                        ></textarea>
+                        <button
+                          class="btn-send"
+                          id="qa-send-btn"
+                          onclick="sendQuestion()"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 合同审查面板 -->
+          <div class="panel" id="panel-contract">
+            <div class="contract-panel">
+              <div class="section-header">
+                <div class="section-header-left">
+                  <div class="section-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14,2 14,8 20,8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                      <polyline points="10,9 9,9 8,9" />
+                    </svg>
+                  </div>
+                  <div class="section-title-group">
+                    <h2 class="section-title" data-i18n="contract.title">
+                      合同智能审查
+                    </h2>
+                    <p class="section-subtitle" data-i18n="contract.subtitle">
+                      支持OCR识别与文本输入，智能检测合同条款风险
+                    </p>
+                  </div>
+                </div>
+                <div class="btn-group">
+                  <button class="btn btn-secondary" onclick="clearContract()">
+                    <svg viewBox="0 0 24 24">
+                      <polyline points="3,6 5,6 21,6" />
+                      <path
+                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                      />
+                    </svg>
+                    <span data-i18n="contract.clear">清空</span>
+                  </button>
+                  <button
+                    class="btn btn-secondary"
+                    id="btn-load-sample"
+                    onclick="loadSampleContract()"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14,2 14,8 20,8" />
+                    </svg>
+                    <span data-i18n="contract.loadSample">加载示例</span>
+                  </button>
+                  <input
+                    type="file"
+                    id="contract-file-upload"
+                    style="display: none"
+                    accept=".docx,.pdf"
+                    onchange="handleFileUpload(this)"
+                  />
+                  <button
+                    class="btn btn-secondary"
+                    onclick="triggerFileUpload()"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    <span data-i18n="contract.uploadFile">上传文件</span>
+                  </button>
+                  <button
+                    class="btn btn-primary"
+                    id="review-btn"
+                    onclick="reviewContract()"
+                  >
+                    <svg viewBox="0 0 24 24">
+                      <path d="M9 11l3 3L22 4" />
+                      <path
+                        d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                      />
+                    </svg>
+                    <span data-i18n="contract.startReview">开始审查</span>
+                  </button>
+                  <button class="btn btn-secondary" onclick="exportContract()">
+                    <svg
+                      viewBox="0 0 24 24"
+                      width="18"
+                      height="18"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"
+                      ></path>
+                      <polyline points="7 10 12 15 17 10"></polyline>
+                      <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span data-i18n="contract.exportResult">导出结果</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- 文件上传提示 -->
+              <div
+                id="file-upload-info"
+                style="
+                  display: none;
+                  margin-bottom: 15px;
+                  padding: 10px;
+                  background: var(--bg-tertiary);
+                  border-radius: 8px;
+                  border: 1px solid var(--border-primary);
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="18"
+                    height="18"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"
+                    ></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                  </svg>
+                  <span
+                    id="uploaded-filename"
+                    style="font-size: 14px; color: var(--text-primary)"
+                    >filename.docx</span
+                  >
+                </div>
+                <button
+                  onclick="clearUploadedFile()"
+                  style="
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: var(--text-muted);
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-width="2"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- 统一的合同工作区 -->
+              <div id="contract-unified-workspace">
+                <!-- 状态 1: 输入模式 -->
+                <div id="mode-input" class="workspace-mode active">
+                  <div class="editor-box input-style">
+                    <div class="editor-header">
+                      <span class="editor-title">
+                        <span class="editor-title-icon">
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                            />
+                            <polyline points="14,2 14,8 20,8" />
+                          </svg>
+                        </span>
+                        <span data-i18n="contract.originalContract"
+                          >原始合同</span
+                        >
+                      </span>
+                      <span
+                        class="editor-badge badge-pending"
+                        id="original-badge"
+                        data-i18n="contract.pendingInput"
+                        >待输入</span
+                      >
+                    </div>
+                    <div class="editor-content">
+                      <textarea
+                        class="contract-textarea"
+                        id="contract-original"
+                        placeholder="请在此粘贴需要审查的合同文本..."
+                        data-i18n-placeholder="contract.inputPlaceholder"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 状态 2: 审查结果模式 -->
+                <div
+                  id="mode-result"
+                  class="workspace-mode"
+                  style="display: none"
+                >
+                  <div class="report-layout">
+                    <!-- 左侧：合同文档视图 (复用 editor-box 样式) -->
+                    <div
+                      class="contract-view-container editor-box result-style"
+                    >
+                      <div class="contract-view-header">
+                        <div class="view-title-group">
+                          <h3 data-i18n="contract.reviewReport">
+                            合同审查报告
+                          </h3>
+                          <div class="risk-stats-mini">
+                            <span class="stat-item high"
+                              ><span data-i18n="contract.highRisk">高风险</span
+                              >: <b id="high-risk-count">0</b></span
+                            >
+                            <span class="stat-item medium"
+                              ><span data-i18n="contract.mediumRisk"
+                                >中风险</span
+                              >: <b id="medium-risk-count">0</b></span
+                            >
+                            <span class="stat-item low"
+                              ><span data-i18n="contract.lowRisk">低风险</span>:
+                              <b id="low-risk-count">0</b></span
+                            >
+                          </div>
+                        </div>
+                        <div class="view-toggles">
+                          <button
+                            class="view-btn"
+                            onclick="switchContractView('original')"
+                            data-view="original"
+                            data-i18n="contract.original"
+                          >
+                            原始
+                          </button>
+                          <button
+                            class="view-btn active"
+                            onclick="switchContractView('redline')"
+                            data-view="redline"
+                            data-i18n="contract.redline"
+                          >
+                            红线
+                          </button>
+                          <button
+                            class="view-btn"
+                            onclick="switchContractView('revised')"
+                            data-view="revised"
+                            data-i18n="contract.revised"
+                          >
+                            修订
+                          </button>
+                        </div>
+                      </div>
+                      <div id="clauses-list" class="contract-content-scroll">
+                        <!-- 条款列表将注入到这里 -->
+                      </div>
+                    </div>
+
+                    <!-- 右侧：分析侧边栏 -->
+                    <div
+                      class="analysis-sidebar-wrapper"
+                      style="
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        height: 100%;
+                        overflow: hidden;
+                      "
+                    >
+                      <div
+                        class="analysis-sidebar-header"
+                        style="
+                          padding: 16px;
+                          font-weight: 700;
+                          font-size: 16px;
+                          color: var(--text-primary);
+                          border-bottom: 1px solid var(--border-primary);
+                          background: var(--bg-secondary);
+                          margin-bottom: 12px;
+                          border-radius: 8px 8px 0 0;
+                        "
+                      >
+                        ⚠️
+                        <span data-i18n="contract.riskAnalysis">风险分析</span>
+                      </div>
+                      <div
+                        class="analysis-sidebar"
+                        id="analysis-list"
+                        style="flex: 1; overflow-y: auto; padding-right: 4px"
+                      >
+                        <!-- 分析卡片将注入到这里 -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 隐藏的旧元素，防止 JS 报错 (待清理) -->
+              <div
+                class="contract-workspace"
+                style="display: none !important"
+              ></div>
+              <div
+                class="results-box"
+                id="review-results"
+                style="display: none !important"
+              ></div>
+              <textarea id="contract-revised" style="display: none"></textarea>
+            </div>
+          </div>
+
+          <!-- 案情预测面板 -->
+          <div class="panel" id="panel-case">
+            <div class="case-panel">
+              <!-- 输入区域 -->
+              <div class="input-box">
+                <div class="input-header">
+                  <div class="input-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14,2 14,8 20,8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                      <polyline points="10,9 9,9 8,9" />
+                    </svg>
+                  </div>
+                  <div class="input-title-group">
+                    <h3 class="input-title" data-i18n="case.inputTitle">
+                      案情描述
+                    </h3>
+                    <p class="input-subtitle" data-i18n="case.inputSubtitle">
+                      描述案件事实，AI 将检索相似判例并预测量刑结果
+                    </p>
+                  </div>
+                </div>
+
+                <div class="input-body">
+                  <textarea
+                    class="case-textarea"
+                    id="case-fact"
+                    data-i18n-placeholder="case.inputPlaceholder"
+                    placeholder="请详细描述案件事实，包括：
+
+• 案发时间与地点
+• 涉案人员及其关系
+• 案件经过与关键细节
+• 造成的后果与损失
+• 其他相关情节（自首、赔偿、前科等）
+
+描述越详细，分析结果越精准..."
+                  ></textarea>
+                </div>
+
+                <div class="prediction-options">
+                  <div class="prediction-hint">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 16v-4" />
+                      <path d="M12 8h.01" />
+                    </svg>
+                    <span data-i18n="case.inputHint"
+                      >支持刑事、民事、行政等多类型案件分析</span
+                    >
+                  </div>
+                  <div class="prediction-actions">
+                    <button
+                      class="btn btn-secondary"
+                      onclick="loadSampleCase()"
+                    >
+                      <svg viewBox="0 0 24 24">
+                        <path
+                          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        />
+                        <polyline points="14,2 14,8 20,8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                      </svg>
+                      <span data-i18n="case.loadSample">加载示例案件</span>
+                    </button>
+                    <button
+                      class="btn btn-primary"
+                      onclick="predictCase()"
+                      id="predict-btn"
+                    >
+                      <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" />
+                        <polygon
+                          points="10,8 16,12 10,16"
+                          fill="currentColor"
+                          stroke="none"
+                        />
+                      </svg>
+                      <span data-i18n="case.startAnalysis">开始智能分析</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 预测结果摘要 -->
+              <div class="prediction-summary" id="prediction-results" style="display: none">
+                <div class="prediction-stat">
+                  <div class="prediction-stat-label">罪名推测</div>
+                  <div class="prediction-stat-value" id="predicted-crime">--</div>
+                </div>
+                <div class="prediction-stat">
+                  <div class="prediction-stat-label">刑期区间</div>
+                  <div class="prediction-stat-value" id="predicted-range">--</div>
+                </div>
+              </div>
+
+              <!-- 智能分析报告 -->
+              <div
+                class="analysis-report-box"
+                id="analysis-section"
+                style="display: none"
+              >
+                <div class="report-header">
+                  <div class="report-title-group">
+                    <h2 class="report-title" data-i18n="case.analysisReport">
+                      智能分析报告
+                    </h2>
+                    <span class="report-timestamp" id="report-timestamp"></span>
+                  </div>
+                  <div class="report-actions">
+                    <button
+                      class="btn btn-export"
+                      onclick="exportReportToPDF()"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        />
+                        <polyline points="14,2 14,8 20,8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <polyline points="9,15 12,18 15,15" />
+                      </svg>
+                      <span data-i18n="case.exportPDF">导出PDF</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 分析内容区域 -->
+                <div class="report-content">
+                  <div class="report-section" id="analysis-content-wrapper">
+                    <h3 class="section-title">
+                      <span data-i18n="case.caseAnalysis">案情分析</span>
+                    </h3>
+                    <div
+                      class="section-body markdown-body"
+                      id="analysis-content"
+                    ></div>
+                  </div>
+
+                  <!-- 相关案例分析区域 -->
+                  <div
+                    class="report-section"
+                    id="case-reference-section"
+                    style="display: none"
+                  >
+                    <h3 class="section-title">
+                      <span>相关案例分析</span>
+                    </h3>
+                    <div
+                      class="section-body markdown-body"
+                      id="case-reference-content"
+                    ></div>
+                  </div>
+
+                  <!-- 法律依据区域 -->
+                  <div
+                    class="report-section"
+                    id="law-reference-section"
+                    style="display: none"
+                  >
+                    <h3 class="section-title section-title-law">
+                      <span data-i18n="case.lawReference">相关法律条文</span>
+                    </h3>
+                    <div
+                      class="section-body law-reference-body"
+                      id="law-reference-content"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 法律法规面板 - 全新左右分栏布局 -->
+          <div class="panel" id="panel-laws">
+            <div class="laws-container-new">
+              <!-- 左侧边栏：搜索 + 统计 + 分类 -->
+              <div class="laws-sidebar">
+                <!-- 顶部标题和统计 -->
+                <div class="laws-sidebar-top">
+                  <div class="laws-sidebar-title">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                      <path
+                        d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                      ></path>
+                    </svg>
+                    <div class="laws-sidebar-title-text">
+                      <h2 data-i18n="laws.title">法律法规库</h2>
+                      <span data-i18n="laws.subtitle">中国法律法规数据库</span>
+                    </div>
+                  </div>
+
+                  <!-- 迷你统计卡片 -->
+                  <div class="laws-stats-mini">
+                    <div class="laws-stat-item">
+                      <div class="stat-num" id="law-total-count">0</div>
+                      <div class="stat-label" data-i18n="laws.totalLaws">
+                        法律条文
+                      </div>
+                    </div>
+                    <div class="laws-stat-item">
+                      <div class="stat-num" id="law-category-count">0</div>
+                      <div class="stat-label" data-i18n="laws.categories">
+                        法律分类
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 搜索框 -->
+                  <div class="laws-search-box">
+                    <svg
+                      class="search-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input
+                      type="text"
+                      class="laws-search-input"
+                      id="law-search-input"
+                      data-i18n-placeholder="laws.searchPlaceholder"
+                      placeholder="搜索法律条文..."
+                      autocomplete="off"
+                    />
+                    <button
+                      class="search-clear-btn"
+                      id="law-search-clear"
+                      style="
+                        display: none;
+                        position: absolute;
+                        right: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      "
+                      onclick="clearLawSearch()"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- 分类标题栏 -->
+                <div class="laws-sidebar-header">
+                  <div class="laws-sidebar-header-title">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <line x1="3" y1="12" x2="21" y2="12"></line>
+                      <line x1="3" y1="6" x2="21" y2="6"></line>
+                      <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                    <span data-i18n="laws.categories">法律分类</span>
+                  </div>
+                  <span class="laws-category-count" id="law-category-badge"
+                    >8类</span
+                  >
+                </div>
+
+                <!-- 分类列表 -->
+                <div class="laws-category-list" id="law-categories">
+                  <div class="loading-text" data-i18n="common.loading">
+                    加载中...
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右侧内容区：法律卡片列表 -->
+              <div class="laws-content-area">
+                <!-- 顶部信息栏 -->
+                <div class="laws-content-header">
+                  <div class="laws-content-title">
+                    <h3
+                      id="laws-current-category-title"
+                      data-i18n="laws.allCategories"
+                    >
+                      全部法律
+                    </h3>
+                    <span class="laws-result-badge" id="law-result-count"
+                      >0 条</span
+                    >
+                  </div>
+                  <div class="laws-filter-tags" id="law-filter-tags"></div>
+                </div>
+
+                <!-- 虚拟滚动结果列表 -->
+                <div
+                  class="virtual-scroll-container laws-scroll-container"
+                  id="law-virtual-container"
+                >
+                  <div class="virtual-scroll-viewport" id="law-results">
+                    <div class="virtual-scroll-spacer" id="law-spacer"></div>
+                    <div class="virtual-scroll-content" id="law-content">
+                      <div class="empty-hint">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                        >
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                          <path
+                            d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                          ></path>
+                        </svg>
+                        <p data-i18n="laws.clickToView">
+                          选择左侧法律分类或输入关键词搜索
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 快速跳转 -->
+                <div class="scroll-info" id="law-scroll-info">
+                  <span class="scroll-position"></span>
+                  <button
+                    class="scroll-to-top"
+                    data-i18n-title="common.back"
+                    title="回到顶部"
+                  >
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                      <polyline points="18 15 12 9 6 15" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 案例库面板 -->
+          <div class="panel" id="panel-cases">
+            <div class="cases-container-new">
+              <!-- 顶部工具栏：左侧标题统计 + 右侧搜索筛选 -->
+              <div class="cases-toolbar">
+                <!-- 左：标题 + 统计 -->
+                <div class="cases-toolbar-left">
+                  <div class="cases-toolbar-title">
+                    <h2 data-i18n="cases.title">刑事案例库</h2>
+                    <span data-i18n="cases.subtitle">中国裁判文书数据库</span>
+                  </div>
+                  <div class="cases-toolbar-stats">
+                    <div class="cases-stat-chip">
+                      <span class="stat-num" id="total-cases-count">0</span>
+                      <span class="stat-label" data-i18n="cases.totalCases">收录案例</span>
+                    </div>
+                    <div class="cases-stat-chip">
+                      <span class="stat-num" id="accusation-count">0</span>
+                      <span class="stat-label" data-i18n="cases.crimeTypes">罪名种类</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- 右：搜索 + 筛选 -->
+                <div class="cases-toolbar-right">
+                  <div class="cases-search-box">
+                    <svg
+                      class="search-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input
+                      type="text"
+                      class="cases-search-input"
+                      id="case-search-input"
+                      data-i18n-placeholder="cases.searchPlaceholder"
+                      placeholder="搜索案例..."
+                      autocomplete="off"
+                    />
+                    <button
+                      class="search-clear-btn"
+                      id="case-search-clear"
+                      style="
+                        display: none;
+                        position: absolute;
+                        right: 12px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                      "
+                      onclick="clearCaseSearch()"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="cases-filter-inline">
+                    <div class="cases-filter-group">
+                      <div class="cases-filter-group-title">
+                        <span data-i18n="cases.crimeTypes">罪名分类</span>
+                        <button
+                          class="cases-filter-clear-sm"
+                          onclick="clearAccusationFilter()"
+                        >清除</button>
+                      </div>
+                      <div class="filter-options-list" id="accusation-list">
+                        <div class="loading-text" data-i18n="common.loading">
+                          加载中...
+                        </div>
+                      </div>
+                    </div>
+                    <div class="cases-filter-group">
+                      <div class="cases-filter-group-title">
+                        <span data-i18n="case.sentenceRange">刑期区间</span>
+                        <button
+                          class="cases-filter-clear-sm"
+                          onclick="clearImprisonmentFilter()"
+                        >清除</button>
+                      </div>
+                      <div class="filter-options-list" id="imprisonment-list">
+                        <div
+                          class="filter-option-item"
+                          data-min="0"
+                          data-max="6"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">6个月以下</span>
+                          <span class="option-count" id="imp-0-6">--</span>
+                        </div>
+                        <div
+                          class="filter-option-item"
+                          data-min="6"
+                          data-max="12"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">6个月-1年</span>
+                          <span class="option-count" id="imp-6-12">--</span>
+                        </div>
+                        <div
+                          class="filter-option-item"
+                          data-min="12"
+                          data-max="36"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">1-3年</span>
+                          <span class="option-count" id="imp-12-36">--</span>
+                        </div>
+                        <div
+                          class="filter-option-item"
+                          data-min="36"
+                          data-max="60"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">3-5年</span>
+                          <span class="option-count" id="imp-36-60">--</span>
+                        </div>
+                        <div
+                          class="filter-option-item"
+                          data-min="60"
+                          data-max="120"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">5-10年</span>
+                          <span class="option-count" id="imp-60-120">--</span>
+                        </div>
+                        <div
+                          class="filter-option-item"
+                          data-min="120"
+                          data-max="999"
+                          onclick="selectImprisonmentNew(this)"
+                        >
+                          <span class="option-name">10年以上</span>
+                          <span class="option-count" id="imp-120-999">--</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 当前筛选状态 + 结果数 -->
+              <div class="cases-content-header">
+                <div class="cases-content-title">
+                  <h3
+                    id="cases-current-filter-title"
+                    data-i18n="cases.allTypes"
+                  >
+                    全部案例
+                  </h3>
+                  <span class="cases-result-badge" id="case-result-count"
+                    >0 条</span
+                  >
+                </div>
+                <div
+                  class="cases-active-filters"
+                  id="current-case-filters"
+                ></div>
+              </div>
+
+              <!-- 案例卡片列表 -->
+              <div
+                class="virtual-scroll-container cases-scroll-container"
+                id="case-virtual-container"
+              >
+                <div class="virtual-scroll-viewport" id="case-results">
+                  <div class="virtual-scroll-spacer" id="case-spacer"></div>
+                  <div class="virtual-scroll-content" id="case-content">
+                    <div class="empty-hint">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="48"
+                        height="48"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                      >
+                        <path
+                          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                        ></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                      </svg>
+                      <p data-i18n="cases.clickToView">
+                        选择筛选条件或输入关键词搜索案例
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                  <!-- 滚动信息栏 -->
+                  <div class="scroll-info" id="case-scroll-info">
+                    <div class="load-progress" id="case-load-progress">
+                      <div class="progress-text" data-i18n="common.loading">
+                        正在加载案例库...
+                      </div>
+                      <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                      </div>
+                    </div>
+                    <span class="scroll-position"></span>
+                    <button
+                      class="scroll-to-top"
+                      data-i18n-title="common.back"
+                      title="回到顶部"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        stroke="currentColor"
+                        fill="none"
+                        stroke-width="2"
+                      >
+                        <polyline points="18,15 12,9 6,15"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- 详情模态框 -->
+          <div
+            class="detail-modal-overlay"
+            id="detail-modal-overlay"
+            onclick="closeDetailModal()"
+          >
+            <div class="detail-modal" onclick="event.stopPropagation()">
+              <div class="detail-modal-header">
+                <h2
+                  class="detail-modal-title"
+                  id="detail-modal-title"
+                  data-i18n="common.info"
+                >
+                  详情
+                </h2>
+                <button class="detail-modal-close" onclick="closeDetailModal()">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="20"
+                    height="20"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-width="2"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <div class="detail-modal-body" id="detail-modal-body">
+                <!-- 动态内容 -->
+              </div>
+              <div class="detail-modal-footer" id="detail-modal-footer">
+                <button
+                  class="btn btn-secondary"
+                  onclick="closeDetailModal()"
+                  data-i18n="common.close"
+                >
+                  关闭
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 设置面板 -->
+          <div class="panel" id="panel-settings">
+            <div class="settings-container">
+              <!-- 模型配置 -->
+              <div class="settings-section">
+                <div class="settings-section-header">
+                  <div class="settings-section-icon">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                      <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+                    </svg>
+                  </div>
+                  <div class="settings-section-title">
+                    <h3 data-i18n="settings.modelConfig">模型配置</h3>
+                    <p data-i18n="settings.modelConfigDesc">
+                      配置AI模型参数和API密钥
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-section-body">
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.apiKey"
+                        >API 密钥</span
+                      >
+                      <span class="label-hint" data-i18n="settings.apiKeyHint"
+                        >DashScope / OpenAI API Key</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <div class="input-group">
+                        <input
+                          type="password"
+                          id="api-key-input"
+                          class="settings-input"
+                          placeholder="sk-xxxxxxxxxxxx"
+                          data-i18n-placeholder="settings.apiKeyPlaceholder"
+                        />
+                        <button
+                          class="btn-small"
+                          onclick="toggleApiKeyVisibility()"
+                        >
+                          <svg viewBox="0 0 24 24" id="eye-icon">
+                            <path
+                              d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                            />
+                            <circle cx="12" cy="12" r="3" />
+                          </svg>
+                        </button>
+                        <button
+                          class="btn-small btn-test"
+                          onclick="testApiConnection()"
+                          data-i18n="settings.testConnection"
+                        >
+                          测试连接
+                        </button>
+                      </div>
+                      <span class="connection-status" id="api-status"></span>
+                    </div>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.llmModel"
+                        >LLM 模型</span
+                      >
+                      <span class="label-hint" data-i18n="settings.llmModelHint"
+                        >选择大语言模型</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <select id="llm-model-select" class="settings-select">
+                        <option value="hunyuan-hy3">混元 Hy3</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span
+                        class="label-text"
+                        data-i18n="settings.embeddingModel"
+                        >向量模型</span
+                      >
+                      <span
+                        class="label-hint"
+                        data-i18n="settings.embeddingModelHint"
+                        >选择Embedding模型</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <select
+                        id="embedding-model-select"
+                        class="settings-select"
+                      >
+                        <option value="hunyuan-hy3">hunyuan-embedding</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.temperature"
+                        >温度参数</span
+                      >
+                      <span
+                        class="label-hint"
+                        data-i18n="settings.temperatureHint"
+                        >控制输出随机性 (0-1)</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <div class="slider-group">
+                        <input
+                          type="range"
+                          id="temperature-slider"
+                          class="settings-slider"
+                          min="0"
+                          max="1"
+                          step="0.1"
+                          value="0.7"
+                        />
+                        <span class="slider-value" id="temperature-value"
+                          >0.7</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 界面偏好 -->
+              <div class="settings-section">
+                <div class="settings-section-header">
+                  <div class="settings-section-icon">
+                    <svg viewBox="0 0 24 24">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <line x1="3" y1="9" x2="21" y2="9" />
+                      <line x1="9" y1="21" x2="9" y2="9" />
+                    </svg>
+                  </div>
+                  <div class="settings-section-title">
+                    <h3 data-i18n="settings.interfaceSettings">界面偏好</h3>
+                    <p data-i18n="settings.interfaceSettingsDesc">
+                      自定义界面显示效果
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-section-body">
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.theme"
+                        >主题模式</span
+                      >
+                      <span class="label-hint" data-i18n="settings.themeHint"
+                        >选择深色或浅色主题</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <div class="theme-toggle-group">
+                        <button
+                          class="theme-option"
+                          data-theme="dark"
+                          onclick="setThemeFromSettings('dark')"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <path
+                              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                            />
+                          </svg>
+                          <span data-i18n="sidebar.darkTheme">深色</span>
+                        </button>
+                        <button
+                          class="theme-option"
+                          data-theme="light"
+                          onclick="setThemeFromSettings('light')"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                          </svg>
+                          <span data-i18n="sidebar.lightTheme">浅色</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.fontSize"
+                        >字体大小</span
+                      >
+                      <span class="label-hint" data-i18n="settings.fontSizeHint"
+                        >调整界面字体大小</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <div class="font-size-group">
+                        <button
+                          class="font-size-option"
+                          data-size="small"
+                          onclick="setFontSize('small')"
+                          data-i18n="settings.fontSmall"
+                        >
+                          小
+                        </button>
+                        <button
+                          class="font-size-option active"
+                          data-size="medium"
+                          onclick="setFontSize('medium')"
+                          data-i18n="settings.fontMedium"
+                        >
+                          中
+                        </button>
+                        <button
+                          class="font-size-option"
+                          data-size="large"
+                          onclick="setFontSize('large')"
+                          data-i18n="settings.fontLarge"
+                        >
+                          大
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="settings-item">
+                    <div class="settings-item-label">
+                      <span class="label-text" data-i18n="settings.language"
+                        >界面语言</span
+                      >
+                      <span class="label-hint" data-i18n="settings.languageHint"
+                        >选择显示语言</span
+                      >
+                    </div>
+                    <div class="settings-item-control">
+                      <select
+                        id="language-select"
+                        class="settings-select"
+                        onchange="onLanguageChange(this.value)"
+                      >
+                        <option value="zh-CN">简体中文</option>
+                        <option value="en-US">English</option>
+                        <option value="ja-JP">日本語</option>
+                        <option value="zh-TW">繁體中文</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 系统信息 -->
+              <div class="settings-section">
+                <div class="settings-section-header">
+                  <div class="settings-section-icon">
+                    <svg viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="12" y1="16" x2="12" y2="12" />
+                      <line x1="12" y1="8" x2="12.01" y2="8" />
+                    </svg>
+                  </div>
+                  <div class="settings-section-title">
+                    <h3 data-i18n="settings.systemInfo">系统信息</h3>
+                    <p data-i18n="settings.systemInfoDesc">
+                      查看系统状态和版本信息
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-section-body">
+                  <div class="system-info-grid">
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span
+                          class="info-card-title"
+                          data-i18n="settings.currentConfig"
+                          >当前生效配置</span
+                        >
+                        <button
+                          class="btn-refresh"
+                          onclick="refreshCurrentConfig()"
+                          title="刷新配置"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <polyline points="23,4 23,10 17,10" />
+                            <polyline points="1,20 1,14 7,14" />
+                            <path
+                              d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="info-card-body">
+                        <div class="info-row">
+                          <span class="info-label" data-i18n="settings.llmModel"
+                            >LLM模型</span
+                          >
+                          <span
+                            class="info-value"
+                            id="current-llm-model"
+                            data-i18n="settings.loading"
+                            >加载中...</span
+                          >
+                        </div>
+                        <div class="info-row">
+                          <span
+                            class="info-label"
+                            data-i18n="settings.embeddingModel"
+                            >Embedding模型</span
+                          >
+                          <span
+                            class="info-value"
+                            id="current-embedding-model"
+                            data-i18n="settings.loading"
+                            >加载中...</span
+                          >
+                        </div>
+                        <div class="info-row">
+                          <span
+                            class="info-label"
+                            data-i18n="settings.temperature"
+                            >温度参数</span
+                          >
+                          <span
+                            class="info-value"
+                            id="current-temperature"
+                            data-i18n="settings.loading"
+                            >加载中...</span
+                          >
+                        </div>
+                        <div class="info-row">
+                          <span
+                            class="info-label"
+                            data-i18n="settings.apiConnection"
+                            >API状态</span
+                          >
+                          <span
+                            class="info-value"
+                            id="current-api-status"
+                            data-i18n="settings.loading"
+                            >加载中...</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span
+                          class="info-card-title"
+                          data-i18n="settings.serviceStatus"
+                          >服务状态</span
+                        >
+                        <button
+                          class="btn-refresh"
+                          onclick="refreshServiceStatus()"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <polyline points="23,4 23,10 17,10" />
+                            <polyline points="1,20 1,14 7,14" />
+                            <path
+                              d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="info-card-body">
+                        <div class="status-row">
+                          <span
+                            class="status-label"
+                            data-i18n="settings.apiConnection"
+                            >API 连接</span
+                          >
+                          <span
+                            class="status-indicator"
+                            id="api-connection-status"
+                          >
+                            <span class="status-dot pending"></span>
+                            <span
+                              class="status-text"
+                              data-i18n="settings.checking"
+                              >检测中...</span
+                            >
+                          </span>
+                        </div>
+                        <div class="status-row">
+                          <span
+                            class="status-label"
+                            data-i18n="settings.llmStatus"
+                            >LLM 模型</span
+                          >
+                          <span class="status-indicator" id="llm-status">
+                            <span class="status-dot pending"></span>
+                            <span
+                              class="status-text"
+                              data-i18n="settings.checking"
+                              >检测中...</span
+                            >
+                          </span>
+                        </div>
+                        <div class="status-row">
+                          <span
+                            class="status-label"
+                            data-i18n="settings.vectorDb"
+                            >向量库</span
+                          >
+                          <span class="status-indicator" id="vectordb-status">
+                            <span class="status-dot pending"></span>
+                            <span
+                              class="status-text"
+                              data-i18n="settings.checking"
+                              >检测中...</span
+                            >
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="info-card">
+                      <div class="info-card-header">
+                        <span
+                          class="info-card-title"
+                          data-i18n="settings.usageStats"
+                          >使用统计</span
+                        >
+                        <button
+                          class="btn-refresh"
+                          onclick="refreshServiceStatus()"
+                          title="刷新统计"
+                        >
+                          <svg viewBox="0 0 24 24">
+                            <polyline points="23,4 23,10 17,10" />
+                            <polyline points="1,20 1,14 7,14" />
+                            <path
+                              d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="info-card-body">
+                        <div class="stats-grid">
+                          <div class="stat-item">
+                            <span
+                              class="stat-label"
+                              data-i18n="settings.legalConsultation"
+                              >法律咨询</span
+                            >
+                            <span class="stat-value" id="stat-qa-count">0</span>
+                          </div>
+                          <div class="stat-item">
+                            <span
+                              class="stat-label"
+                              data-i18n="settings.contractReview"
+                              >合同审查</span
+                            >
+                            <span class="stat-value" id="stat-contract-count"
+                              >0</span
+                            >
+                          </div>
+                          <div class="stat-item">
+                            <span
+                              class="stat-label"
+                              data-i18n="settings.casePrediction"
+                              >案情预测</span
+                            >
+                            <span class="stat-value" id="stat-case-count"
+                              >0</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 保存按钮 -->
+              <div class="settings-actions">
+                <button
+                  class="btn btn-secondary"
+                  onclick="resetSettings()"
+                  data-i18n="settings.reset"
+                >
+                  恢复默认
+                </button>
+                <button
+                  class="btn btn-primary"
+                  onclick="saveSettings()"
+                  data-i18n="settings.save"
+                >
+                  保存设置
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

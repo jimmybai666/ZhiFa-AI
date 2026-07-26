@@ -1,0 +1,6 @@
+# 大文件
+*.mp4
+*.gif
+
+# 超过GitHub 100MB限制的数据集
+ZhiFa/data/case_dataset/train.json
