@@ -1,0 +1,18 @@
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+
+# ─── IDE ───
+.vscode/
+.idea/
+
+# ─── 数据集（保留 README） ───
+datasets/*
+!datasets/README.md
+
+# ─── 智法训练数据 ───
+ZhiFa/data/
+
+# ─── 智法向量存储 ───
+ZhiFa/storage/

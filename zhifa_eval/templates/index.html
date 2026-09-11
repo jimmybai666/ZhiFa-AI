@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZhiFa-Eval 智法评测平台</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- 侧边导航 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="#" class="logo">
+          <div class="logo-icon">评</div>
+          <div class="logo-text">
+            <span class="logo-title">ZhiFa-Eval</span>
+            <span class="logo-subtitle">Legal Benchmark</span>
+          </div>
+        </a>
+      </div>
+      <nav class="nav-menu">
+        <div class="nav-section">
+          <div class="nav-section-title">评测中心</div>
+          <div class="nav-item active" data-panel="dashboard" onclick="switchPanel('dashboard')">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></span>
+            <span class="nav-label">总览</span>
+          </div>
+          <div class="nav-item" data-panel="runner" onclick="switchPanel('runner')">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21 5,3"/></svg></span>
+            <span class="nav-label">评测执行</span>
+          </div>
+          <div class="nav-item" data-panel="results" onclick="switchPanel('results')">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            <span class="nav-label">结果分析</span>
+          </div>
+        </div>
+        <div class="nav-section">
+          <div class="nav-section-title">系统</div>
+          <div class="nav-item" data-panel="settings" onclick="switchPanel('settings')">
+            <span class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+            <span class="nav-label">API 配置</span>
+          </div>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="theme-switch">
+          <div class="theme-toggle">
+            <button class="theme-btn active" onclick="setTheme('dark')">深色</button>
+            <button class="theme-btn" onclick="setTheme('light')">浅色</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+      <header class="top-bar">
+        <h1 class="page-title">
+          <span id="page-title-text">总览</span>
+        </h1>
+      </header>
+      <div class="content-area">
+        <!-- PANEL: Dashboard -->
+        <div class="panel active" id="panel-dashboard">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-value">17</div><div class="stat-label">子任务</div></div>
+            <div class="stat-card"><div class="stat-value">3,770</div><div class="stat-label">评测样本</div></div>
+            <div class="stat-card"><div class="stat-value">7</div><div class="stat-label">评估维度</div></div>
+            <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">评测模块</div></div>
+          </div>
+          <p style="color:var(--text-muted)">加载中...</p>
+        </div>
+        <!-- PANEL: Runner -->
+        <div class="panel" id="panel-runner">
+          <!-- JS 填充 -->
+        </div>
+        <!-- PANEL: Results -->
+        <div class="panel" id="panel-results">
+          <!-- JS 填充 -->
+        </div>
+        <!-- PANEL: Settings -->
+        <div class="panel" id="panel-settings">
+          <!-- JS 填充 -->
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
