@@ -11,7 +11,7 @@ __pycache__/
 datasets/*
 !datasets/README.md
 
-# ─── 智法训练数据 ───
+# ─── 智法数据 ───
 ZhiFa/data/
 
 # ─── 智法向量存储 ───
