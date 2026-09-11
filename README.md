@@ -7,6 +7,8 @@
 ![RAG](https://img.shields.io/badge/Tech-RAG-red)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+**本仓库为智法AI应用侧。犀牛鸟实战任务完整交付（评测体系、实验验证、评测报告）见 👉 [ZhiFa-LegalEval](https://github.com/jimmybai666/ZhiFa-AI/tree/LegalEval)**
+
 **智法AI** 是一款面向法律场景的 AI 助手，以腾讯混元 Hy3 为核心推理引擎，结合 RAG 检索增强生成与实时互联网搜索，为用户提供法律问答、合同审查、案情预测、法条检索四大能力。系统全程通过 API 调用 Hy3，配备 Web 可视化前端，开箱即用。
 
 
